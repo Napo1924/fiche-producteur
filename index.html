@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fiche Producteur - Certification RA</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#006400" />
+  <style>
+    body {
+      background-color: #eafbe7;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 10px;
+    }
+    header {
+      background-color: #006400;
+      color: white;
+      padding: 10px;
+      text-align: center;
+      border-radius: 8px;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      box-sizing: border-box;
+    }
+    textarea {
+      resize: vertical;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .btn-save { background-color: green; color: white; }
+    .btn-print { background-color: darkgreen; color: white; margin-left: 10px; }
+    .btn-send { background-color: #25D366; color: white; margin-left: 10px; }
+    .logo { display: block; margin: 0 auto 10px auto; max-width: 120px; }
+    footer {
+      margin-top: 30px;
+      text-align: center;
+      font-size: 14px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/5/59/Rainforest_Alliance_certified_seal.svg" alt="Logo RA" class="logo" />
+    <h1>Fiche Producteur - Certification Rainforest Alliance / Producer Form - RA</h1>
+  </header>
+  <div class="container">
+    <form id="fiche-form">
+      <label>Nom du producteur <input type="text" id="nom" required /></label>
+      <label>Photo du producteur <input type="file" id="photo" accept="image/*" /></label>
+      <label>Sexe <select id="sexe"><option>M</option><option>F</option></select></label>
+      <label>Âge <input type="number" id="age" min="0" /></label>
+      <label>Téléphone <input type="text" id="telephone" pattern="[0-9]{8,}" required /></label>
+      <label>Email (optionnel) <input type="email" id="email" /></label>
+      <label>Nom de la coopérative <input type="text" id="cooperative" required /></label>
+      <label>Code membre <input type="text" id="code_membre" required /></label>
+      <label>Localité / Village <input type="text" id="localite" /></label>
+      <label>Région / Département <input type="text" id="region" /></label>
+      <label>Culture principale <select id="culture"><option>Café</option><option>Cacao</option></select></label>
+      <label>Superficie totale (ha) <input type="number" id="superficie" step="0.01" min="0" /></label>
+      <label>Superficie certifiée RA (ha) <input type="number" id="superficie_certifiee" step="0.01" min="0" /></label>
+      <label>Superficie non certifiée RA (ha) <input type="number" id="superficie_non_certifiee" step="0.01" min="0" /></label>
+      <label>Année d’adhésion <input type="text" id="annee_adhesion" /></label>
+      <label>Numéro de certification <input type="text" id="num_certification" /></label>
+      <label>Variété cultivée <input type="text" id="variete" /></label>
+      <label>Système de culture <select id="systeme"><option>Monoculture</option><option>Agroforesterie</option></select></label>
+      <label>Agent Terrain / PR responsable <input type="text" id="agent" /></label>
+      <label>Date de la dernière visite <input type="date" id="date_visite" /></label>
+      <label>Thèmes de formation reçus <textarea id="themes_formation" rows="3" placeholder="Exemples : Bonnes pratiques agricoles, Santé & Sécurité, Traçabilité, Lutte contre le travail des enfants, Environnement"></textarea></label>
+      <label>Remarques / Observations <textarea id="remarques"></textarea></label>
+
+      <button type="button" class="btn-save" onclick="genererPDF()">Générer PDF</button>
+      <button type="button" class="btn-print" onclick="window.print()">Imprimer</button>
+      <button type="button" class="btn-send" onclick="envoyerWhatsApp()">Envoyer via WhatsApp</button>
+    </form>
+  </div>
+  <footer>
+    <p>Mr Sidibé Abdoulaye - Consultant Formateur ATN RA</p>
+  </footer>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js');
+    }
+    function envoyerWhatsApp() {
+      const numero = document.getElementById("telephone").value.replace(/\D/g, "");
+      const nom = document.getElementById("nom").value.trim();
+      const msg = encodeURIComponent(`Bonjour ${nom}, votre fiche RA est prête. Merci de votre engagement pour une agriculture durable.`);
+      window.open(`https://wa.me/225${numero}?text=${msg}`, '_blank');
+    }
+  </script>
+</body>
+</html>
